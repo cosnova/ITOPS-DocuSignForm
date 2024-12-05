@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic User Contact Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .contact-group {
+            margin-bottom: 20px;
+        }
+        .contact-group label {
+            font-weight: bold;
+        }
+        .dynamic-fields {
+            margin-top: 10px;
+        }
+        .dynamic-fields input {
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+        .dynamic-fields button {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dynamic User Contact Form</h1>
+    <form id="userContactForm" action="" method="post" enctype="multipart/form-data">
+        <!-- Internal User Contacts -->
+        <div class="contact-group">
+            <label>Internal User Contacts:</label>
+            <div id="internalUserFields" class="dynamic-fields">
+                <div>
+                    <input type="text" name="internalName[]" placeholder="Name" required>
+                    <input type="email" name="internalEmail[]" placeholder="Email" required>
+                    <input type="text" name="internalContact[]" placeholder="Contact Number" required>
+                    <button type="button" onclick="addField('internalUserFields')">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- External User Contacts -->
+        <div class="contact-group">
+            <label>External User Contacts:</label>
+            <div id="externalUserFields" class="dynamic-fields">
+                <div>
+                    <input type="text" name="externalName[]" placeholder="Name" required>
+                    <input type="email" name="externalEmail[]" placeholder="Email" required>
+                    <input type="text" name="externalContact[]" placeholder="Contact Number" required>
+                    <button type="button" onclick="addField('externalUserFields')">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- File Attachment -->
+        <div class="contact-group">
+            <label>Attach Documents:</label>
+            <input type="file" name="documents[]" multiple required>
+        </div>
+
+        <!-- Dropdown for Department -->
+        <div class="contact-group">
+            <label>Department:</label>
+            <select name="department" id="department" required>
+                <option value="">Select Department</option>
+                <option value="legal">Legal</option>
+                <option value="it">Information Technology</option>
+            </select>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function addField(containerId) {
+            const container = document.getElementById(containerId);
+            const newField = document.createElement('div');
+            newField.innerHTML = `
+                <input type="text" name="${containerId === 'internalUserFields' ? 'internalName[]' : 'externalName[]'}" placeholder="Name" required>
+                <input type="email" name="${containerId === 'internalUserFields' ? 'internalEmail[]' : 'externalEmail[]'}" placeholder="Email" required>
+                <input type="text" name="${containerId === 'internalUserFields' ? 'internalContact
