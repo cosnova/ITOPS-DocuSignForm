@@ -18,12 +18,17 @@
         .dynamic-fields {
             margin-top: 10px;
         }
-        .dynamic-fields input {
+        .dynamic-fields .field-row {
+            display: flex;
+            gap: 10px;
             margin-bottom: 10px;
-            margin-right: 10px;
+        }
+        .dynamic-fields input {
+            flex: 1;
         }
         .dynamic-fields button {
-            margin-left: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -34,7 +39,7 @@
         <div class="contact-group">
             <label>Internal User Contacts:</label>
             <div id="internalUserFields" class="dynamic-fields">
-                <div>
+                <div class="field-row">
                     <input type="text" name="internalName[]" placeholder="Name" required>
                     <input type="email" name="internalEmail[]" placeholder="Email" required>
                     <input type="text" name="internalContact[]" placeholder="Contact Number" required>
@@ -47,7 +52,7 @@
         <div class="contact-group">
             <label>External User Contacts:</label>
             <div id="externalUserFields" class="dynamic-fields">
-                <div>
+                <div class="field-row">
                     <input type="text" name="externalName[]" placeholder="Name" required>
                     <input type="email" name="externalEmail[]" placeholder="Email" required>
                     <input type="text" name="externalContact[]" placeholder="Contact Number" required>
@@ -79,8 +84,42 @@
     <script>
         function addField(containerId) {
             const container = document.getElementById(containerId);
-            const newField = document.createElement('div');
-            newField.innerHTML = `
+
+            const newFieldRow = document.createElement('div');
+            newFieldRow.classList.add('field-row');
+
+            newFieldRow.innerHTML = `
                 <input type="text" name="${containerId === 'internalUserFields' ? 'internalName[]' : 'externalName[]'}" placeholder="Name" required>
                 <input type="email" name="${containerId === 'internalUserFields' ? 'internalEmail[]' : 'externalEmail[]'}" placeholder="Email" required>
-                <input type="text" name="${containerId === 'internalUserFields' ? 'internalContact
+                <input type="text" name="${containerId === 'internalUserFields' ? 'internalContact[]' : 'externalContact[]'}" placeholder="Contact Number" required>
+                <button type="button" onclick="removeField(this)">-</button>
+            `;
+
+            container.appendChild(newFieldRow);
+        }
+
+        function removeField(button) {
+            const fieldRow = button.parentElement;
+            fieldRow.remove();
+        }
+
+        document.getElementById('userContactForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const department = document.getElementById('department').value;
+            let email = '';
+            if (department === 'legal') {
+                email = 'A.rehbein@cosnova.com';
+            } else if (department === 'it') {
+                email = 'c.miranda@cosnova.com';
+            } else {
+                alert('Please select a department.');
+                return;
+            }
+
+            alert(`Form will be sent to ${email}`);
+            // Additional code can be added here to handle actual form submission.
+        });
+    </script>
+</body>
+</html>
